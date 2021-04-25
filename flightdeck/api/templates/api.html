@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Documentation - {% endblock %}
+
+{% block head %}
+	<script src="/media/api/js/API.Browser.js"></script>
+	<link href="/media/api/css/API.Browser.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block app_sidebar %}
+	<h2 class="UI_Heading"><a title="Tutorial" href="{% url tutorial %}">Tutorial</a></h2>
+	<h2 class="UI_Heading"><a title="{{ package_name}}" href="{% url api_package package_name %}">
+		{% if package.name == 'jetpack-core' %}Core Library{% else %}{{ package.name }}{% endif %}
+	</a></h2>
+	{% include "_modules_list.html" %}
+{% endblock %}
+

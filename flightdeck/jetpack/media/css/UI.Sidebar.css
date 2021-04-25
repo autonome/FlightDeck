@@ -1,126 +1,219 @@
-/*
----
-filename: UI.Sidebar.css
-decription: Provides base layout for FlightDeck
-license: MIT-style license.
-authors:
- - Oskar Krawczyk (http://nouincolor.com/)
-...
-*/
-
 .UI_Sidebar {
-   
 }
 
 .UI_Sidebar_Item {
-   
 }
 
 .UI_Sidebar_Toggler {
-   position: relative;
+	position: relative;
 }
 
-   .UI_Sidebar_Toggler a {
-      display: block;
-      background: #E5E9EE;
-      border-top: solid 1px #fff;
-      border-bottom: solid 1px #AFB6BD;
-      border-right: solid 1px #F2F4F7;
-      color: #4D5860;
-      text-shadow: 0 1px 0 #fff;
-      padding: 16px 0 16px 45px; 
-   }
+	.UI_Sidebar_Toggler a {
+		display: block;
+		background: #E5E9EE;
+		border-top: solid 1px #fff;
+		border-bottom: solid 1px #AFB6BD;
+
+		color: #4D5860;
+		text-shadow: 0 1px 0 #fff;
+		padding: 12px 0 12px 45px; 
+	}
+	
+	.UI_Sidebar_Toggler a strong {
+		color: #999;
+		font-size: .8em;
+		padding: 0 0 0 3px;
+	}
+
+	.UI_Sidebar_Toggler a:hover {
+		text-decoration: none;
+	}
+
+		.UI_Sidebar_Toggler a .UI_OC,
+		.UI_Sidebar_Toggler a .UI_Sidebar_Toggler_Icon {
+			display: block;
+			position: absolute;
+			top: 50%;
+			background-repeat: no-repeat;
+		}
       
-      .UI_Sidebar_Toggler a .UI_OC,
-      .UI_Sidebar_Toggler a .UI_Sidebar_Toggler_Icon {
-         display: block;
-         position: absolute;
-         top: 50%;
-         background-repeat: no-repeat;
-      }
+		/* Open/close triangle */
+		.UI_Sidebar_Toggler a .UI_OC {
+			right: 10px;
+			margin-top: -5px;
+			height: 11px;
+			width: 11px;
+			background-image: url(../img/toggle-arrows.png);
+		}
+
+			/* Opened open/close */
+			.UI_Sidebar_Toggler.opened a .UI_OC {
+				background-position: 0 -23px;
+			}
+
+			/* Closed open/close */
+			.UI_Sidebar_Toggler.closed a .UI_OC {
+				background-position: 0 -34px;
+			}
       
-      /* Open/close triangle */
-      .UI_Sidebar_Toggler a .UI_OC {
-         right: 10px;
-         margin-top: -5px;
-         height: 11px;
-         width: 11px;
-         background-image: url(../img/toggle-arrows.png);
-      }
-      
-         /* Opened open/close */
-         .UI_Sidebar_Toggler.opened a .UI_OC {
-            background-position: 0 -23px;
-         }
-      
-         /* Closed open/close */
-         .UI_Sidebar_Toggler.closed a .UI_OC {
-            background-position: 0 -34px;
-         }
-      
-      /* Right hand-side icon for the toggler */
-      .UI_Sidebar_Toggler a .UI_Sidebar_Toggler_Icon {
-         left: 10px;
-         margin-top: -13px;
-         height: 27px;
-         width: 26px;
-         background-image: url(../img/toggle-icons.png);
-      }
-      
-         .UI_Sidebar_Toggler.capabilities a .UI_Sidebar_Toggler_Icon {
-            background-position: 0 0;
-         }
-      
-         .UI_Sidebar_Toggler.recentlyModified a .UI_Sidebar_Toggler_Icon {
-            background-position: 0 -27px;
-         }
+	/* Right hand-side icon for the toggler */
+	.UI_Sidebar_Toggler a .UI_Sidebar_Toggler_Icon {
+		left: 10px;
+		margin-top: -13px;
+		height: 27px;
+		width: 26px;
+		background-image: url(../img/toggle-icons.png);
+	}
+
+		.UI_Sidebar_Toggler.dependencies a .UI_Sidebar_Toggler_Icon {
+			background-position: 0 0;
+		}
+
+		.UI_Sidebar_Toggler.recentlyModified a .UI_Sidebar_Toggler_Icon {
+			background-position: 0 -27px;
+		}
+
+		.UI_Sidebar_Toggler.info a .UI_Sidebar_Toggler_Icon {
+			background-position: 0 -54px;
+		}
+		
+		.UI_Sidebar_Toggler.attachments a .UI_Sidebar_Toggler_Icon {
+			background-position: 0 -81px;
+		}
+		
+		.UI_Sidebar_Toggler.libraries a .UI_Sidebar_Toggler_Icon {
+			background-position: 0 -108px;
+		}
          
-         .UI_Sidebar_Toggler.info a .UI_Sidebar_Toggler_Icon {
-            background-position: 0 -54px;
-         }
-         
-   .UI_Sidebar_Creator,
-   .UI_Sidebar_Author,
-   .UI_Sidebar_SwitchTo {
-      margin: 6px 0 0;
-      font-size: .9em;
-      
-   }
+	.UI_Sidebar_Creator,
+	.UI_Sidebar_Author,
+	.UI_Sidebar_SwitchTo {
+		margin: 10px 0 0;
+		font-size: .9em;
+	}
+
+		.UI_Sidebar_Creator a,
+		.UI_Sidebar_Author a,
+		.UI_Sidebar_SwitchTo a {
+			color: #478CDE;
+			padding-bottom: 1px;
+			border-bottom: solid 1px #E9EDF0;
+			font-weight: bold;
+		}
+
+		.UI_Sidebar_Creator a:hover,
+		.UI_Sidebar_Author a:hover,
+		.UI_Sidebar_SwitchTo a:hover {
+			text-decoration: none;
+			color: #3E464D;
+			border-bottom: solid 1px #478CDE;
+		}
    
-      .UI_Sidebar_Creator a,
-      .UI_Sidebar_Author a,
-      .UI_Sidebar_SwitchTo a {
-         color: #4D5860;
-         text-shadow: 0 1px 0 #fff;
-         background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
-         -moz-border-radius: 4px;
-         padding: 2px 7px;
-         margin-left: 2px;
-         display: inline-block;
-      }
-   
-   .UI_Sidebar_ItemCont {
-      font-size: .9em;
-      padding: 10px;
-   }
-   
-      .UI_Sidebar_ItemCont .UI_Field_Cont {
-         padding: 0 0 5px;
-      }
+	.UI_Sidebar_SwitchTo select {
+		display: inline-block;
+		width: 150px;
+		margin: 0 0 0 5px;
+	}
+
+	.UI_Sidebar_ItemCont {
+		padding: 0;
+	}
+
+		.UI_Sidebar_ItemCont .UI_Field_Cont {
+			padding: 10px;
+		}
+
+		.UI_Sidebar_ItemCont .UI_Field_Cont label {
+			display: block;
+			padding: 0 0 3px;
+			cursor: pointer;
+			font-size: .9em;
+		}
+
+		.UI_Sidebar_ItemCont .UI_Field_Cont input {
+			border: solid 1px #CBCFD4;
+			padding: 3px;
+			width: 156px;
+			display: inline-block;
+			background: -moz-linear-gradient(270deg, #F2F2F2, #fff 6px);
+		}
+		
+		.UI_Sidebar_VersionName {
+			position: relative;
+		}
+
+			.UI_Sidebar_ItemCont .UI_Field_Cont .UI_Sidebar_VersionName input {
+				padding: 3px 20px 3px 3px;
+				width: 186px;
+				display: block;
+				text-align: right;
+			}
+
+			.UI_Sidebar_VersionName span {
+				position: absolute;
+				top: 1px;
+				right: 3px;
+				font-size: 1em;
+				padding: 3px 0;
+				color: #ABABAB;
+				cursor: default;
+			}
       
-      .UI_Sidebar_ItemCont .UI_Field_Cont label {
-         display: block;
-         padding: 0 0 3px;
-         cursor: pointer;
-         font-size: .9em;
-      }
-      
-      .UI_Sidebar_ItemCont .UI_Field_Cont input {
-         border: solid 1px #CBCFD4;
-         padding: 3px;
-         width: 140px;
-         display: inline-block;
-         background: url(../img/input-shadow-bg.png) 0 0 repeat-x;
-      }
-      
-      
+.UI_Sidebar_ItemCont .UI_New_Dependency {
+
+}
+
+	.UI_Sidebar_ItemCont .UI_New_Dependency input {
+		width: 167px;
+		float: left;
+		text-align: left;
+	}
+
+	.UI_Sidebar_ItemCont .UI_New_Dependency button,
+	.UI_Sidebar_ItemCont .UI_New_Dependency #create_and_add_dependency_action {
+		width: 35px;
+		padding: 2px 0;
+		float: right;
+		text-align: center;
+		color: #4D5860;
+		text-shadow: 0 1px 0 #fff;
+		background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
+		border: solid 1px #CBCFD4;
+		border-left: none;
+		cursor: pointer;
+	}
+
+	.UI_Sidebar_ItemCont .UI_New_Dependency button:hover,
+	.UI_Sidebar_ItemCont .UI_New_Dependency button.hover,
+	.UI_Sidebar_ItemCont .UI_New_Dependency #create_and_add_dependency_action:hover,
+	.UI_Sidebar_ItemCont .UI_New_Dependency #create_and_add_dependency_action.hover {
+		background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
+		text-decoration: none;
+	}
+
+	.UI_Sidebar_ItemCont .UI_New_Dependency button:active,
+	.UI_Sidebar_ItemCont .UI_New_Dependency #create_and_add_dependency_action:active {
+		background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
+		color: #6D7880;
+		outline: none;
+	}
+	
+	.UI_Sidebar_ItemCont .UI_New_Dependency #create_and_add_dependency_action {
+		border-left: solid 1px #CBCFD4;
+		width: 208px;
+		margin: 5px 0 0;
+		float: left;
+	}
+	
+	.UI_Field_Attachment_Cont {
+		background: #A8FFC9;
+		position: relative;
+	}
+	
+	.UI_Field_Attachment_Cont .realAttachmentInput {
+		opacity: 0.001;
+		position: absolute;
+		top: -3px;
+		left: -58px;
+		font-size: 1.3em;
+	}

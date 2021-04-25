@@ -1,0 +1,11 @@
+{
+	{% include "json/_edit_urls.json" %}
+	"message_title": "Success",
+	"message": "Attachment {{ attachment.filename }} added",
+	"filename": "{{ attachment.filename }}",
+	"ext": "{{ attachment.ext }}",
+	"basename": "{{ attachment.get_filename }}",
+	"display_url": "{{ attachment.get_display_url }}",
+	"author": "{{ attachment.author.username }}"
+}
+

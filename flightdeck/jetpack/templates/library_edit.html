@@ -1,0 +1,14 @@
+{% extends "edit.html" %}
+
+{% block modules_sidebar %}
+	{% for module in modules %}
+		{% include "_sidebar_revision_module.html" %}
+	{% endfor %}
+{% endblock %}
+
+{% block editor_wrapper %}
+	{% for module in revision.modules.all %}
+		{% include "_module_code_textarea.html" %}
+	{% endfor %}
+{% endblock %}
+

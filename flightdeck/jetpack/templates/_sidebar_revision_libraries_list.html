@@ -1,0 +1,9 @@
+{% for library in libraries %}
+	<li class="UI_File_Normal">
+		<a title="" id="library_{{ library.package.name }}" href="{{ library.get_absolute_url }}" target="{{ library.package.id_number }}" class="library_link">
+			{{ library.package.full_name }}
+			{% if not readonly %}<span class="File_close"></span>{% endif %}
+		</a>
+	</li>
+{% endfor %}
+

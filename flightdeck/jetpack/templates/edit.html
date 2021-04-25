@@ -1,0 +1,140 @@
+{% extends "base_fluid_width.html" %}
+{% load base_helpers %}
+
+{% block title %}Edit {{ revision }} - {% endblock %}
+
+{% block head %}
+	<link rel="stylesheet" href="/media/jetpack/css/UI.Editor.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/media/jetpack/css/FlightDeck.Autocomplete.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/media/bespin/BespinEmbedded.css" type="text/css" media="screen" />
+	<script src="/media/jetpack/js/FlightDeck.Editor.js"></script>
+	<script src="/media/jetpack/js/Editor.js"></script>
+	<script src="/media/bespin/BespinEmbedded.js"></script>
+	<script src="/media/jetpack/js/Bespin.js"></script>
+	<script src="/media/js/lib/Meio.Autocomplete.HTML.js"></script>
+	<script src="/media/js/FlightDeck.Autocomplete.js"></script>
+	<script src="/media/jetpack/js/FlightDeck.Bespin.js"></script>
+	<script src="/media/jetpack/js/Package.js"></script>
+	<script src="/media/js/lib/sendFile.js"></script>
+{% endblock %}
+
+{# switch off default menu bar #}
+{% block app_menu %}{% endblock %}
+
+{# initialize package view #}
+{% block app_domready %}{% include "js/_edit_package_initiate.js" %}{% endblock %}
+
+{# get package_info_form_template #}
+{% block app_settings %}
+	edit_package_info_template: '{% escape_template "_edit_package_info.html" %}',
+	library_autocomplete_url: '{% url jp_library_autocomplete %}',
+	revisions_list_html_url: '{% url jp_revisions_list_html revision.package.id_number %}',
+{% endblock %}
+
+
+{% block create_init %}{% comment %}
+	create.init(
+		['create_addon'],
+		['addon'],
+		'app-body'
+	);
+{% endcomment %}{% endblock %}
+
+{# switch off the footer #}
+{% block footer %}{% endblock %}
+
+{% block app_sidebar %}
+	<section id="package-info" class="UI_Sidebar_Item">
+		{% include "_package_info.html" %}
+	</section>
+
+	<section id="modules">
+		{% with revision.modules.all as modules %}
+			<h3 class="UI_Sidebar_Toggler modules opened"><a title="Modules" href="#">
+				Modules <strong id="modules-counter">({% if modules %}{{ modules|length }}{% else %}0{% endif %})</strong> 
+				<span class="UI_OC"></span>
+				<span class="UI_Sidebar_Toggler_Icon"></span>
+			</a></h3>
+			<div class="UI_Sidebar_ItemCont UI_File_Listing">
+				<ul id="Modules_list" class="UI_File_Listing">
+					{# modules are different for addons and libraries #}
+					{% block modules_sidebar %}{% endblock %}
+				</ul>
+				<div class="UI_Field_Cont UI_New_Dependency" id="add_module_div">	
+					<label for="add_module">Add module:</label>
+					<input type="text" id="add_module" name="module_filename" value="" />
+					<button title="Add new module" id="add_module_action">Add</button>
+				</div>
+			</div>
+		{% endwith %}
+	</section>
+	<section id="attachments">
+		{% with revision.attachments.all as attachments %}
+			<h3 class="UI_Sidebar_Toggler attachments opened{% if not attachments %} closed{% endif %}">
+				<a title="Attachments" href="#">
+					Attachments <strong id="attachments-counter">({{ attachments|length }})</strong> 
+					<span class="UI_OC"></span>
+					<span class="UI_Sidebar_Toggler_Icon"></span>
+				</a>
+			</h3>
+			<div class="UI_Sidebar_ItemCont">
+				<ul class="UI_File_Listing" id='attachments_ul'>
+					{% for attachment in attachments %}
+						<li class="UI_File_Normal">
+							<a title="" href="{{ attachment.get_display_url }}" rel="{{ attachment.ext }}" class="Module_file" id="{{ attachment.filename }}{{ attachment.ext }}_display">{{ attachment.get_filename }}<span class="File_close"></span></a>
+						</li>
+					{% endfor %}
+				</ul>
+				<div class="UI_Field_Cont UI_New_Dependency" id="add_attachment_div">
+					<label for="add_attachment">Add attachments:</label>
+					<div class="UI_Field_Attachment_Cont">
+						<input type="file" class="realAttachmentInput" multiple="true" id="add_attachment" name="attachment_filename" value=""/>
+						<input type="text" id="add_attachment_fake" name="void" value="" />
+						<button title="Add new module" id="add_attachment_action_fake">Add</button>
+					</div>
+				</div>
+			</div>
+		{% endwith %}
+	</section>
+	<section id="libraries">
+		<h3 class="UI_Sidebar_Toggler libraries opened{% if not libraries %} closed{% endif %}">
+			<a title="Libraries" href="#">
+				Libraries <strong id="libraries-counter">({{ library_counter }})</strong>
+				<span class="UI_OC"></span>
+				<span class="UI_Sidebar_Toggler_Icon"></span>
+			</a>
+		</h3>
+		<div class="UI_Sidebar_ItemCont">
+			<ul class="UI_File_Listing">
+				{% block core_library %}{% endblock %}
+				{% if libraries %}
+					{% include "_sidebar_revision_libraries_list.html" %}
+				{% endif %}
+			</ul>
+			<div class="UI_Field_Cont UI_New_Dependency" id="assign_library_div">
+				<label for="assign_library">Use library:</label>
+				<input type="hidden" id="library_id_number" name="library_id_number" value="" />
+				<input type="text" id="assign_library" name="assign_library" value="" />
+				<button title="Add existing library" id="assign_library_action">Use</button>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block app_content %}
+	<div id="editor-menu-wrapper">
+		<ul class="UI_Editor_Menu">
+			{% block app_content_menu_items %}{% endblock %}
+			<li class="UI_Editor_Menu_Button Icon_save">
+				<a id="package-save" title="" href="#">Save 
+					<span class="UI_Editor_Icon"></span>
+				</a>
+			</li>
+			{% include "_editor_app_menu_items.html" %}
+		</ul>
+	</div> <!-- /editor-menu-wrapper -->
+	<div id='editor-wrapper'>
+		{% block editor_wrapper %}
+		{% endblock %}
+	</div> <!-- /editor-wrapper -->
+{% endblock %}

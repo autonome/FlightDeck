@@ -4,14 +4,18 @@
 # exclude patterns (uncomment them if you want to use them):
 # *.[oa]
 # *~
+.DS_Store
 logs
 adminmedia
 dev.db
 pip-log.txt
 flightdeckenv
 flightdeck/media/jetpack
+flightdeck/media/tutorial
 flightdeck/media/bespin
+flightdeck/media/codemirror
 flightdeck/media/roar
+flightdeck/media/api
 flightdeck/jetpack/media/media
 *local.py
 *local.wsgi
@@ -20,3 +24,8 @@ flightdeck/jetpack/media/media
 .*swp
 .log
 *.log
+*.aux
+*.log
+*.synctex.gz
+upload
+

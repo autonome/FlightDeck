@@ -1,0 +1,103 @@
+{% extends "base_fluid_width.html" %}
+
+{% block title %}{{ revision }} - {% endblock %}
+
+{% block head %}
+	<link rel="stylesheet" href="/media/jetpack/css/UI.Editor.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/media/bespin/BespinEmbedded.css" type="text/css" media="screen" />
+	<script src="/media/jetpack/js/FlightDeck.Editor.js"></script>
+	<script src="/media/jetpack/js/Editor.js"></script>
+	<script src="/media/bespin/BespinEmbedded.js"></script>
+	<script src="/media/jetpack/js/Bespin.js"></script>
+	<script src="/media/jetpack/js/FlightDeck.Bespin.js"></script>
+	<script src="/media/jetpack/js/Package.js"></script>
+{% endblock %}
+
+{# switch off default menu bar #}
+{% block app_menu %}{% endblock %}
+
+{# initialize package view #}
+{% block app_domready %}{% include "js/_view_package_initiate.js" %}{% endblock %}
+
+{# switch off the footer #}
+{% block footer %}{% endblock %}
+
+{% block app_settings %}
+	revisions_list_html_url: '{% url jp_revisions_list_html revision.package.id_number %}',
+{% endblock %}
+
+{% block create_init %}{% comment %}
+	create.init(
+		['create_addon'],
+		['addon'],
+		'app-body'
+	);
+{% endcomment %}{% endblock %}
+
+{% block app_sidebar %}
+	<section id="package-info" class="UI_Sidebar_Item">
+		{% include "_package_info.html" %}
+	</section>
+	<section id="modules">
+		{% block modules_sidebar %}{% endblock %}
+	</section>
+	{% with revision.attachments.all as attachments %}{% if attachments %}
+	<section id="attachments">
+			<h3 class="UI_Sidebar_Toggler attachments opened">
+				<a title="Attachments" href="#">
+					Attachments <strong id="attachments-counter">({{ attachments|length }})</strong> 
+					<span class="UI_OC"></span>
+					<span class="UI_Sidebar_Toggler_Icon"></span>
+				</a>
+			</h3>
+			<div class="UI_Sidebar_ItemCont">
+				<ul class="UI_File_Listing" id='attachments_ul'>
+					{% for attachment in attachments %}
+						<li class="UI_File_Normal">
+							<a title="" href="{{ attachment.get_display_url }}" rel="{{ attachment.ext }}" class="Module_file" id="{{ attachment.filename }}_display">
+								{{ attachment.get_filename }}
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</section>
+	{% endif %}{% endwith %}
+	{% if libraries or revision.package.is_addon %}
+		<section id="libraries">
+			<h3 class="UI_Sidebar_Toggler libraries opened"><a title="Libraries" href="#">
+				Libraries <strong id="libraries-counter">({{ library_counter }})</strong> 
+				<span class="UI_OC"></span>
+				<span class="UI_Sidebar_Toggler_Icon"></span>
+			</a></h3>
+			<div class="UI_Sidebar_ItemCont">
+				<ul class="UI_File_Listing">
+					{% block core_library %}{% endblock %}
+					{% if libraries %}
+						{% include "_sidebar_revision_libraries_list.html" %}
+					{% endif %}
+				</ul>
+			</div>
+		</section>
+	{% endif %}
+{% endblock %}
+	
+
+{% block app_content %}
+	<div id="editor-menu-wrapper">
+		<ul class="UI_Editor_Menu">
+			{% block app_content_menu_items %}{% endblock %}
+			{% if revision.package.public_permission != 2 %}
+				<li class="UI_Editor_Menu_Button Icon_copy">
+					<a id="package-copy" title="" href="#">Copy 
+						<span class="UI_Editor_Icon"></span>
+					</a>
+				</li>
+			{% endif %}
+			{% include "_editor_app_menu_items.html" %}
+		</ul>
+	</div> <!-- /editor-menu-wrapper -->
+	<div id="editor-wrapper">
+		{% block editor_wrapper %}{% endblock %}
+	</div>
+{% endblock %}

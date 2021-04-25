@@ -8,21 +8,29 @@
  * Otherwise standard textarea will be used.
  */
 
-var Editor = new Class({
+var FDEditor = new Class({
 	Implements: [Options, Events],
+	$name: 'FlightDeckEditor',
 	options: {
-		element: "version_content"
+		// element: "main_textarea",
+		activate: false,
+		readonly: false
 	},
 	initialize: function(options) {
 		this.setOptions(options);
-		this.element = $(this.options.element);
 		this.changed = false;
+		this.initEditor();
+	},
+	initEditor: function() {
+		this.element = $(this.options.element);
+		var boundOnChange = this.onChange.bind(this);
 		this.element.addEvents({
-			'change': function() {
-				this.fireEvent('change');
-				this.changed = true;
-			}.bind(this)
+			'change': boundOnChange 
 		});
+	},
+	onChange: function () {
+		this.fireEvent('change');
+		this.changed = true;
 	},
 	toElement: function() {
 		return this.element;
@@ -35,13 +43,21 @@ var Editor = new Class({
 		return this;
 	},
 	destroy: function() {
+		this.hide();
+		this.element.destroy();
+		this.fireEvent('destroy');
 	},
 	hide: function() {
+		this.hidden = true;
 		this.element.hide();
+		this.fireEvent('hide');
 		return this;
 	},
 	show: function() {
+		this.hidden = false;
 		this.element.show();
+		this.fireEvent('show');
 		return this;
-	}
+	},
+	cleanUp: $empty
 });

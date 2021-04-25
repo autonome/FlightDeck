@@ -1,0 +1,25 @@
+{% extends "api.html" %}
+{% load base_helpers markup %}
+
+{% block title %}Module "{{ module.name }}" ({{ package.name }}) - Documentation - {% endblock %}
+
+{% block app_content %}
+	<h2 class="UI_Heading">Module {{ module_name }}</h2>
+	
+	<div id="api-body">
+
+		<div class="UI_ModuleInfo markdown">
+			{{ module.info|markdown }}
+		</div>
+		
+		{% for entity in module.data %}
+			<dl id="{{ entity.name }}">
+				<dt class="ModuleInfo_{{ entity.type }}">{{ entity.type }}: <a title="{{ entity.name }}" href="#{{ entity.name }}">{{ entity.name }}</a></dt>
+				<dd>
+					{% include entity.template %}
+				</dd>
+			</dl>
+		{% endfor %}
+		
+	</div>
+{% endblock %}

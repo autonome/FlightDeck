@@ -1,57 +1,75 @@
 /*
- * Inspired from http://github.com/jeresig/sizzle/commit/7631f9c3f85e5fa72ac51532399cb593c2cdc71f
- * and this http://github.com/jeresig/sizzle/commit/5716360040a440041da19823964f96d025ca734b
- * and then http://dev.jquery.com/ticket/4512
- */
-
-Element.implement({
-
-	isHidden: function(){
-		var w = this.offsetWidth, h = this.offsetHeight,
-		force = (this.tagName.toLowerCase() === 'tr');
-		return (w===0 && h===0 && !force) ? true : (w!==0 && h!==0 && !force) ? false : this.getStyle('display') === 'none';
-	},
-
-	isVisible: function(){
-		return !this.isHidden();
-	}
-
-});
-
-
-/*
  * Bespin wrapper
  */
+/*
+ * Class: CodeMirror.js
+ * Extension for Editor to use CodeMirror
+ */
 
-Class.refactor(Editor, {
+Class.refactor(FDEditor, {
 	options: {
-		version: 0.6
+		type: null
 	},
 	initialize: function(options) {
 		this.previous(options);
-		if (this.options.version < 0.6) {
-			this.embed = tiki.require("bespin:embed");
-		} else {
-			this.embed = tiki.require("Embedded");
-		}	
-		this.textarea = this.element;
-		this.element = new Element('div',{
-			'text': this.element.get('text'),
-			'id': this.element.get('id'),
-			'class': 'bespin' 
-		});
-		this.textarea.set('id',this.textarea.get('id')+'_textarea')
-		this.element.inject(this.textarea, 'after');
-		if (this.textarea.isHidden()) {
-			this.element.hide();
-		}
-		this.textarea.hide();
-
-		this.embed.useBespin(this.element);
-		this.element.addClass("bespin");
 	},
+	initEditor: function(editor_id) {
+		var self = this;
+		this.editor_id = editor_id || this.options.element;
+		this.element = $(this.editor_id);
+		// register element's content
+		fd.editor_contents[this.editor_id] = this.element.get('text')
+		// mark hidden elements and record initial state
+		if (this.options.activate) { 
+			$log('FD: activate {element}'.substitute(this.options));
+			fd.addEvent('bespinLoad', function() {
+				// show the embedded content 
+				self.show();
+			});
+		} else {
+			self.hidden = true; 
+		}
+		fd.addEvent('bespinChange', function() {
+			if (fd.current_editor == self.editor_id) {
+				if (!fd.switching) {
+					self.fireEvent('change');
+					self.changed = true;
+				}
+			}
+		});
+		this.element.hide();
+	},
+
 	getContent: function() {
-		this.textarea.set('text', this.element.value);
-		return this.element.value;
-	}
+		// this.textarea.set('text', this.bespin.value);
+		if (fd.current_editor == this.editor_id) {
+			return fd.bespin.getContent();
+		} else {
+			return fd.editor_contents[this.editor_id];
+		}
+	},
+
+	setContent: function(value) {
+		this.previous(value);	
+		fd.bespin.setContent(value);
+	},
+
+	hide: function() {
+		// if (fd.bespin) fd.editor_contents[this.element.get('id')] = fd.bespin.value;
+		return this;
+	},
+
+	destroy: function() {
+		this.element.destroy();
+	},
+
+	show: function() {
+		// set content of the bespin
+		fd.switching = true;
+		fd.switchBespinEditor(this.editor_id, this.options.type);
+		
+		fd.switching = false;
+		return this;
+	},
+	cleanUp: $empty
 });

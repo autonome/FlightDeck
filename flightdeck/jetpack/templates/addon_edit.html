@@ -1,0 +1,44 @@
+{% extends "edit.html" %}
+
+
+{% block modules_sidebar %}
+	{% with revision.get_main_module as module %}
+		{% include "_sidebar_revision_module.html" %}
+	{% endwith %}
+	{% for module in modules %}{% if revision.module_main != module.filename %}
+		{% include "_sidebar_revision_module.html" %}
+	{% endif %}{% endfor %}
+{% endblock %}
+
+
+{% block core_library %}
+	{% include "_core_library_item.html" %}
+{% endblock %}
+
+
+{% block app_content_menu_items %}
+	<li class="UI_Editor_Menu_Button Icon_try XPI_test">
+		<a id="try_in_browser" rel="{{ revision.package.jid }}" title="" href="{{ revision.get_test_xpi_url }}">
+			Test 
+			<span class="UI_Editor_Icon"></span>
+		</a>
+	</li>
+	<li class="UI_Editor_Menu_Button Icon_download">
+		<a id="download" target="_new" title="" href="{{ revision.get_download_xpi_url }}">
+			Download 
+			<span class="UI_Editor_Icon"></span>
+		</a>
+	</li>
+	<li class="UI_Editor_Menu_Separator"></li>	
+{% endblock %}
+
+
+{% block editor_wrapper %}
+	{% with revision.get_main_module as module %}
+		{% include "_module_code_textarea.html" %}
+	{% endwith %}
+	{% for module in revision.modules.all %}{% if module.filename != revision.module_main %}
+		{% include "_module_code_textarea.html" %}
+	{% endif %}{% endfor %}
+{% endblock %}
+

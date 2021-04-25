@@ -8,6 +8,8 @@ ADMINS = (
    # ('Your Name', 'your_email@domain.com'),
 )
 
+HOMEPAGE_ITEMS_LIMIT = 5
+
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = ''		   # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -43,16 +45,17 @@ MEDIA_ROOT = ''
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = ''
 
-LOGIN_URL = '/user/login/'
+LOGIN_URL = '/user/signin/'
+LOGIN_REDIRECT_URL = '/user/dashboard/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/adminmedia/'
 
-ADMIN_TITLE = "FlightDeck administration"
+ADMIN_TITLE = "Add-ons Builder Administration"
 
-SITE_TITLE = "FlightDeck - Jetpack development"
+SITE_TITLE = "Add-ons Builder"
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'somesecretkey'
@@ -67,16 +70,23 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
 	'django.middleware.common.CommonMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+	'debug_toolbar.middleware.DebugToolbarMiddleware',
 ) 
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-	"django.core.context_processors.auth",
-	"django.core.context_processors.request",
-	"base.context_processors.settings",
+	'django.core.context_processors.auth',
+	'django.core.context_processors.request',
+	'base.context_processors.settings',
+	'django.contrib.messages.context_processors.messages',
+	'person.context_processors.profile',
 )
 
 ROOT_URLCONF = 'flightdeck.urls'
+
+ADDONS_HELPER_URL = 'https://addons.mozilla.org/firefox/downloads/latest/182410?src=external-builder'
 
 TEMPLATE_DIRS = (
 	# Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -106,8 +116,11 @@ INSTALLED_APPS.extend([
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
 	'django.contrib.sites',
+	'django.contrib.markup',
+	'django.contrib.messages',
 	# extensions
 	'django_extensions',
+	'debug_toolbar',
 	# database migrations
 	# 'south',
 	# FlightDeck apps
@@ -115,12 +128,15 @@ INSTALLED_APPS.extend([
 	'person',			# user related stuff (profile etc.)
 	'amo',				# addons.mozilla.org integration (authentication state updates)
 	'jetpack',			# Jetpack functionality
+	'api',				# API browser
+	'tutorial',			# Load tutorial templates
 ])
 
 # devserver is optional
 try:
 	import devserver
-	INSTALLED_APPS.append('devserver')
+	# dev server does not play well with the debug_toolbar - switched off
+	#INSTALLED_APPS.append('devserver')
 except:
 	pass
 
@@ -135,3 +151,6 @@ try:
 	from settings_local import *
 except:
 	pass
+
+execfile(ACTIVATE_THIS, dict(__file__=ACTIVATE_THIS))
+

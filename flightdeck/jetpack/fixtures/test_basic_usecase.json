@@ -1,0 +1,241 @@
+[
+    {
+        "pk": 101, 
+        "model": "jetpack.package", 
+        "fields": {
+            "name": "test-library-one", 
+            "license": "", 
+            "author": 101, 
+            "id_number": "1000100", 
+            "lib_dir": "", 
+            "last_update": "2010-05-22 14:13:26", 
+            "url": "", 
+            "version": 103, 
+            "latest": 103, 
+            "full_name": "Test: Library One", 
+            "version_name": "alpha_0.1", 
+            "type": "l", 
+            "created_at": "2010-05-22 13:19:14", 
+            "public_permission": 1, 
+            "description": ""
+        }
+    }, 
+    {
+        "pk": 101, 
+        "model": "jetpack.packagerevision", 
+        "fields": {
+            "origin": null, 
+            "contributors": "", 
+            "package": 101, 
+            "created_at": "2010-05-22 13:19:28", 
+            "module_main": "main", 
+            "revision_number": 0, 
+            "author": 101, 
+            "dependencies": [], 
+            "version_name": "initial", 
+            "message": ""
+        }
+    }, 
+    {
+        "pk": 102, 
+        "model": "jetpack.packagerevision", 
+        "fields": {
+            "origin": 101, 
+            "contributors": "", 
+            "package": 101, 
+            "created_at": "2010-05-22 13:19:28", 
+            "module_main": "main", 
+            "revision_number": 1, 
+            "author": 101, 
+            "dependencies": [], 
+            "version_name": "", 
+            "message": ""
+        }
+    }, 
+    {
+        "pk": 103, 
+        "model": "jetpack.packagerevision", 
+        "fields": {
+            "origin": 102, 
+            "contributors": "", 
+            "package": 101, 
+            "created_at": "2010-05-22 13:19:28", 
+            "module_main": "main", 
+            "revision_number": 2, 
+            "author": 101, 
+            "dependencies": [], 
+            "version_name": "alpha_0.1", 
+            "message": ""
+        }
+    }, 
+    {
+        "pk": 101, 
+        "model": "jetpack.module", 
+        "fields": {
+            "code": "// First library for Library One - created with fixtures", 
+            "revisions": [
+                102, 103
+            ], 
+            "author": 101, 
+            "filename": "first-module"
+        }
+    },
+    {
+        "pk": 102, 
+        "model": "jetpack.module", 
+        "fields": {
+            "code": "// Second module for library One - created with fixtures", 
+            "revisions": [
+                103
+            ], 
+            "author": 101, 
+            "filename": "second-module"
+        }
+    },
+    {
+        "pk": 102, 
+        "model": "jetpack.package", 
+        "fields": {
+            "name": "test-addon-one", 
+            "license": "", 
+            "author": 101, 
+            "id_number": "1000102", 
+            "lib_dir": "", 
+            "last_update": "2010-05-22 14:10:46", 
+            "url": "", 
+            "version": 104, 
+            "latest": 105, 
+            "full_name": "Test: Addon One", 
+            "version_name": "initial", 
+            "type": "a", 
+            "created_at": "2010-05-22 13:34:22", 
+            "public_permission": 1, 
+            "description": "Test"
+        }
+    }, 
+    {
+        "pk": 104, 
+        "model": "jetpack.packagerevision", 
+        "fields": {
+            "origin": null, 
+            "contributors": "", 
+            "package": 102, 
+            "created_at": "2010-05-22 13:19:28", 
+            "module_main": "main", 
+            "revision_number": 1, 
+            "author": 101, 
+            "dependencies": [], 
+            "version_name": "initial", 
+            "message": ""
+        }
+    }, 
+    {
+        "pk": 105, 
+        "model": "jetpack.packagerevision", 
+        "fields": {
+            "origin": null, 
+            "contributors": "", 
+            "package": 102, 
+            "created_at": "2010-05-22 13:19:28", 
+            "module_main": "main", 
+            "revision_number": 2, 
+            "author": 101, 
+            "dependencies": [], 
+            "version_name": "", 
+            "message": ""
+        }
+    }, 
+    {
+        "pk": 103, 
+        "model": "jetpack.module", 
+        "fields": {
+            "code": "// This is an active module of the Test: Addon One - created with fixtures", 
+            "revisions": [
+                105
+            ], 
+            "author": 101, 
+            "filename": "main"
+        }
+    },
+    {
+        "pk": 103, 
+        "model": "jetpack.package", 
+        "fields": {
+            "name": "test-addon-two", 
+            "license": "", 
+            "author": 102, 
+            "id_number": "1000103", 
+            "lib_dir": "", 
+            "last_update": "2010-05-22 14:10:46", 
+            "url": "", 
+            "version": 108, 
+            "latest": 108, 
+            "full_name": "Test: Addon Two", 
+            "version_name": "with_module_and_dependency", 
+            "type": "a", 
+            "created_at": "2010-05-22 13:34:22", 
+            "public_permission": 1, 
+            "description": "Test"
+        }
+    }, 
+    {
+        "pk": 106, 
+        "model": "jetpack.packagerevision", 
+        "fields": {
+            "origin": null, 
+            "contributors": "", 
+            "package": 103, 
+            "created_at": "2010-05-22 13:19:28", 
+            "module_main": "main", 
+            "revision_number": 0, 
+            "author": 102, 
+            "dependencies": [], 
+            "version_name": "initial", 
+            "message": ""
+        }
+    }, 
+    {
+        "pk": 107, 
+        "model": "jetpack.packagerevision", 
+        "fields": {
+            "origin": 106, 
+            "contributors": "", 
+            "package": 103, 
+            "created_at": "2010-05-22 13:19:28", 
+            "module_main": "main", 
+            "revision_number": 1, 
+            "author": 102, 
+            "dependencies": [], 
+            "version_name": "with_module", 
+            "message": ""
+        }
+    }, 
+    {
+        "pk": 108, 
+        "model": "jetpack.packagerevision", 
+        "fields": {
+            "origin": 107, 
+            "contributors": "", 
+            "package": 103, 
+            "created_at": "2010-05-22 13:19:28", 
+            "module_main": "main", 
+            "revision_number": 2, 
+            "author": 102, 
+            "dependencies": [103], 
+            "version_name": "with_module_and_dependency", 
+            "message": ""
+        }
+    }, 
+    {
+        "pk": 104, 
+        "model": "jetpack.module", 
+        "fields": {
+            "code": "// This is an active module of the Test: Addon Two - created with fixtures", 
+            "revisions": [
+                107, 108
+            ], 
+            "author": 102, 
+            "filename": "main"
+        }
+    }
+]

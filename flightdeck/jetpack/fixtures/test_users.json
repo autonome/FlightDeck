@@ -1,0 +1,62 @@
+[
+    {
+        "pk": 101, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "7654321", 
+            "first_name": "John", 
+            "last_name": "Doe", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2010-05-22 13:09:50", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$9e033$63eaa4232e5969cd778ee3f63630d90c43f02661", 
+            "email": "john@doe.com", 
+            "date_joined": "2010-05-22 13:09:50"
+        }
+    }, 
+    {
+        "pk": 102, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "1234567", 
+            "first_name": "Jan", 
+            "last_name": "Kowalski", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2010-05-22 13:33:09", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$42f4c$9502fbf35847194fa6ee948886a0f4d8611807ed", 
+            "email": "jan@kowalski.com", 
+            "date_joined": "2010-05-22 13:33:09"
+        }
+    },
+    {
+        "pk": 101, 
+        "model": "person.profile", 
+        "fields": {
+            "nickname": "johnd", 
+            "location": "", 
+            "user": 101, 
+            "photo": null, 
+            "homepage": null, 
+            "occupation": null
+        }
+    }, 
+    {
+        "pk": 102, 
+        "model": "person.profile", 
+        "fields": {
+            "nickname": "jank", 
+            "location": "", 
+            "user": 102, 
+            "photo": null, 
+            "homepage": null, 
+            "occupation": null
+        }
+    } 
+]

@@ -1,0 +1,252 @@
+#app-body {
+	margin: 0;
+}
+
+#app-content {
+	margin: 0;
+}
+
+.medium {
+	font-size: 1.5em;
+	clear: both;
+}
+
+body .UI_middleWrapper.page {
+	max-width: 100%;
+}
+
+/*
+ ========================================================================= */
+#features-wrapper {
+	border-bottom: solid 1px #fff;
+	background: -moz-linear-gradient(270deg, #FFFFFE, #F3F5F7);
+	overflow: hidden;
+	height: 100%;
+	padding: 1.5em 0;
+	-moz-box-shadow: 0 1px 0 #D0D5DB;
+	
+	
+}
+
+#features-wrapper .UI_middleWrapper {
+	max-width: 945px;
+	font-family: Helvetica, Arial, Tahoma, sans-serif;
+	position: relative;
+}
+
+	#features-wrapper .UI_Feature_Copy {
+		float: left;
+		margin-right: 240px;
+		padding-right: 20px;
+		border-right: solid 1px #D0D5DB;
+		-moz-box-shadow: 1px 0 0 #fff;
+	}
+
+		#features-wrapper .UI_Feature_Copy h3 {
+			font-size: 2.1em;
+			display: block;
+			color: #478CDE;
+			text-shadow: 0 1px 0 #fff;
+			line-height: .9em;
+			margin-bottom: .5em;
+		}
+	
+		#features-wrapper .UI_Feature_Copy p {
+			margin: 10px 0 0;
+			font-size: 1em;
+			line-height: 1.5em;
+			text-shadow: 0 1px 0 #fff;
+			color: #666666;
+		}
+	
+			#features-wrapper .UI_Feature_Copy p a {
+				color: #478CDE;
+			}
+		
+	#features-wrapper .UI_Feature_Side {
+		width: 220px;
+		float: right;
+		position: absolute;
+		top: 50%;
+		right: 0;
+		margin-top: -22px;
+	}
+	
+/*
+ ========================================================================= */
+#new-addon {
+}
+
+	#new-addon li {
+		float: right;
+		background: -moz-linear-gradient(270deg, #8CC472, #5E9045);
+		padding: 2px 1px 1px;
+		-moz-border-radius: 6px;
+		width: 100%;
+	}
+
+	#new-addon li:hover {
+		-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	}
+
+		#new-addon li a {
+			background: -moz-linear-gradient(270deg, #C5F3AE, #96CE79);
+			-moz-border-radius: 5px;
+			-moz-box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.8);
+			overflow: hidden;
+			display: block;
+			color: #136B00;
+			font-family: Helvetica, Arial, Tahoma, sans-serif;
+		}
+
+		#new-addon li a:hover {
+			text-decoration: none;
+			background: -moz-linear-gradient(270deg, #DEF8C4, #A5DA7F);
+		}
+
+			#new-addon li a span {
+				display: block;
+				padding: 14px 31px 12px 76px;
+				background: url(../img/UI_Buttons/button-home-addon.png) 0 50% no-repeat;
+				text-shadow: 0 1px 0  rgba(255, 255, 255, 0.7);
+				-moz-border-radius: 5px;
+				font-size: 1.3em;
+			}
+			
+			#new-addon li a:hover span {
+				/*opacity: 0.6;*/
+			}
+
+
+/*
+ ========================================================================= */
+#libs-and-extensions {
+	margin: 25px 15px 0;
+}
+
+	.UI_LE_Col {
+		width: 48.8%;
+		float: left;
+		margin-bottom: 30px;
+	}
+	
+	.UI_LE_Col_Group {
+		clear: both;
+		padding-top: 15px;
+	}
+	
+	.UI_LE_Col.createLibrary,
+	.UI_LE_Col.libraries {
+		float: right;
+	}
+	
+	.UI_LE_Col.getSdk {
+		float: left;
+	}
+	
+		.UI_LE_Col .UI_Item {
+			min-width: 170px;
+			padding-right: 0;
+		}
+		
+			.UI_LE_Col .UI_Item h3 {
+				font-size: .95em;
+			}
+			
+			.UI_LE_Col .UI_Item h4 {
+				font-size: .65em;
+			}
+	
+			.UI_LE_Col .UI_Actions {
+				font-size: .9em;
+				width: 193px;
+			}
+		
+				.UI_LE_Col .UI_Actions a {
+					padding: 3px 6px;
+				}
+			
+				.UI_LE_Col .UI_Actions li.UI_Pick_Version .UI_Versions {
+					position: absolute;
+					top: 22px;
+				}
+				
+/*
+ ========================================================================= */
+.UI_Bottom_Info {
+}
+
+.UI_Bottom_Info ul {
+	font-size: .9em;
+}
+
+	.UI_Mini_Button {
+		background: -moz-linear-gradient(270deg, #8CC472, #5E9045);
+		padding: 2px 1px 1px;
+		-moz-border-radius: 6px;
+		margin-top: 10px;
+	}
+	
+	.UI_Mini_Button:hover {
+		-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	}
+
+		.UI_Bottom_Info li {
+			float: left;
+		}
+
+		.UI_Mini_Button a {
+			background: -moz-linear-gradient(270deg, #C5F3AE, #96CE79);
+			-moz-border-radius: 5px;
+			-moz-box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.8);
+			overflow: hidden;
+			display: block;
+		}
+		
+		.UI_Mini_Button a:hover {
+			text-decoration: none;
+			background: -moz-linear-gradient(270deg, #DEF8C4, #A5DA7F);
+		}
+
+			.UI_Mini_Button a span {
+				display: block;
+				padding: 7px 12px 8px 52px;
+				background: url(../img/UI_Buttons/button-download-sdk.png) 0 50% no-repeat;
+				color: #136B00;
+				text-shadow: 0 1px 0  rgba(255, 255, 255, 0.7);
+				font-weight: bold;
+				-moz-border-radius: 5px;
+			}
+			
+			.UI_Mini_Button a:hover span {
+				/*opacity: 0.6;*/
+			}
+
+
+.UI_Mini_Button.grey {
+	background: -moz-linear-gradient(270deg, #D7DBE1, #A5ACB4);
+}
+
+	.UI_Mini_Button.grey a {
+		background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
+	}
+
+	.UI_Mini_Button.grey a:hover {
+		background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
+	}
+
+		.UI_Mini_Button.grey a span {
+			background: url(../img/UI_Buttons/button-home-lib.png) 0 50% no-repeat;
+			color: #4D5860;
+			
+		}
+
+	.moreInfo {
+		margin: 19px 0 0 20px;
+	}
+
+		.moreInfo a {
+			color: #478CDE;
+		}
+		
+		

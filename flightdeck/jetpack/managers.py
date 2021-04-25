@@ -1,16 +1,17 @@
 from django.db import models
 
-class CapVersionManager(models.Manager):
-	def get_base(self, slug):
-		try:
-			return self.get(capability__slug=slug, is_base=True)
-		except:
-			return None
+class PackageManager(models.Manager):
 
-class JetVersionManager(models.Manager):
-	def get_base(self, slug):
-		try:
-			return self.get(jetpack__slug=slug, is_base=True)
-		except:
-			return None
+	def addons(self):
+		return self.filter(type="a")
+
+	def libraries(self):
+		return self.filter(type="l")
+
+
+
+class PackageRevisionManager(models.Manager):
+
+	def filter_by_slug(self, slug):
+		 return self.select_related().filter(package__slug=slug)
 

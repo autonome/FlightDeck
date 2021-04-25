@@ -1,149 +1,530 @@
-/*
----
-filename: UI.Layout.css
-decription: Provides base layout for FlightDeck
-license: MIT-style license.
-authors:
- - Oskar Krawczyk (http://nouincolor.com/)
-...
-*/
-
 body {
-   background: #fff url(../img/sidebar-bg.png) 0 0 repeat-y;
-   
-   font-family: 'Lucida Grande', 'Lucida Sans', 'Lucida Sans Unicode', 'Myriad', Tahoma, Verdana, Arial, sans-serif;
-   font-size: .8em;
-   color: #4D5860;
+	background: #fff url(../img/sidebar-bg.png) 0 0 repeat-y;
+	font-family: 'Lucida Grande', 'Lucida Sans', 'Lucida Sans Unicode', 'Myriad', Tahoma, Verdana, Arial, sans-serif;
+	font-size: .8em;
+	color: #4D5860;
+	overflow-x: hidden;
 }
 
 a,
 a:link {
-   text-decoration: none;
-   color: #4D5860;
-   outline: none;
+	text-decoration: none;
+	color: #4D5860;
+	outline: none;
 }
 
-a:hover,
-a:focus {
-   text-decoration: underline;
+a:hover {
+	text-decoration: underline;
 }
 
 /*
  =========================================================================== */
 #wrapper {
-   min-width: 1020px;
+	min-width: 800px;
+}
+
+.UI_middleWrapper,
+.centerSection p {
+	max-width: 975px;
+	margin: 0 auto;
+	position: relative;
+}
+
+.UI_middleWrapper.page {
+	max-width: 775px;
 }
 
 /*
  =========================================================================== */
 #app-header {
-   background: #3F4652 url(../img/header-bg.png) 0 0 repeat-x;
-   height: 90px;
+	background: -moz-linear-gradient(270deg, #5A6776, #4E5861);
+	height: 90px;
 }
 
+	#app-header nav {
+		float: right;
+		margin: 45px 15px 0 0;
+		padding: 1px;
+		z-index: 20;
+		
+	}
+   
+	#app-header nav li {
+		float: left;
+		color: #B3B3B3;
+		padding: 5px 2px;
+		margin: 0 4px;
+	}
+   
+		#app-header nav li a {
+			font-size: .9em;
+			text-shadow: 0 1px 0 #000;
+			color: #D4D9DF;
+		}      
+
+		#app-header nav li a.logout {
+			color: #B3B3B3;
+		}
+
+		#app-header nav li a:hover {
+			color: #fff;
+		}
+      
+	#app-header nav li.active {
+		background: -moz-linear-gradient(270deg, #2C3137, #3E454D);
+		-moz-border-radius: 3px;
+		-moz-box-shadow: 0 1px 0 #7A7E86;
+		margin: 0 3px;
+		padding: 1px;
+		color: #fff;
+		text-shadow: 0 1px 0 #011E4F;
+	}
+      
+		#app-header nav li.active span {
+			background: -moz-linear-gradient(270deg, #66778C, #545F6B);
+			-moz-border-radius: 2px;
+			padding: 4px 8px;
+			display: inline-block;
+		}
+
+		#app-header nav li.active a {
+			color: #fff;
+		}
+		
+/*
+ =========================================================================== */
 #flightdeck-logo {
-   display: none;
+	display: block;
+	float: left;
+	font-size: 2.0em;
+	width: 246px;
+	height: 60px;
+	margin-left: 15px;
+	margin-top: 15px;
 }
+
+	#flightdeck-logo a {
+		display: block;
+		width: 246px;
+		height: 60px;
+		background: url(../img/flightdeck-logo.png) 0 0 no-repeat;
+		text-indent: -900em;
+	}
 
 #mozillalabs-logo {
-   position: absolute;
-   top: 20px;
-   left: 10px;
+	display: none;
 }
 
-   #mozillalabs-logo a {
-      display: block;
-      width: 161px;
-      height: 34px;
-      text-indent: -900em;
-      background: url(../img/mozilla-labs-logo.png) 0 0 repeat-x;
-   }
+	#mozillalabs-logo a {
+	}
    
+
+#brand {
+	height: 35px;
+	background: url(../img/mozilla/header-border.png) 0 0 repeat-x;
+	overflow: hidden;
+	position: absolute;
+	width: 100%;
+}
+
+	#brand p {
+	}
+
+	#brand a {
+		float: right;
+		width: 82px;
+		height: 31px;
+		display: block;
+		background: url(../img/mozilla/tab-mozilla.png) 0 0 no-repeat;
+		text-indent: -900em;
+		margin-top: 4px;
+		margin-right: 15px;
+	}
+
 /*
  =========================================================================== */
 #app-body {
-   margin-left: 190px;   
+	margin-left: 230px;
 }
 
 /*
  =========================================================================== */
 #app-content {
-   float: right;
-   width: 100%;   
+	float: right;
+	width: 100%;   
 }
 
 /*
  =========================================================================== */
 #editor-menu-wrapper {
-   background: #E5E9EE;
-   border-top: solid 1px #EFF2F5;
-   border-bottom: solid 1px #AFB6BD;
-   padding: 7px;
+	background: #E5E9EE;
+	border-top: solid 1px #EFF2F5;
+	border-bottom: solid 1px #AFB6BD;
+	padding: 7px;
 }
 
 /*
  =========================================================================== */
 #editor-wrapper {
-   background: url(../img/shadow.png) 0 0 repeat-x;
-   position: relative;
+	background: -moz-linear-gradient(270deg, #E5E5E5, #FFFFFF 4px);
+	position: relative;
 }
 
 /*
  =========================================================================== */
 #app-sidebar {
-   float: left;
-   width: 190px;
-   margin-left: -191px;
-   border-right: solid 1px #AFB6BD;
+	float: left;
+	width: 230px;
+	margin-left: -231px;
+	border-right: solid 1px #AFB6BD;
+	background: #fff;
 }
 
-#jetpack-info {
+#package-info {
    
 }
 
-   #jetpack-info #ji-toggler {
-      background: -moz-linear-gradient(270deg, #3A86DA, #022052);
-      padding-right: 1px;
-      position: relative;
-      right: -1px;
-   }
-   
-   #jetpack-info #ji-toggler a {
-      display: block;
-      background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
-      border-top: solid 1px #9CC7F8;
-      border-bottom: solid 1px #022052;
-      color: #fff;
-      text-shadow: 0 1px 0 #011E4F;
-      padding: 16px 0 16px 10px; 
-   }
-   
-   #jetpack-info #ji-toggler a span {
-      display: block;
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      margin-top: -5px;
-      height: 11px;
-      width: 11px;
-      background-image: url(../img/toggle-arrows.png);
-      background-repeat: no-repeat;
-   }
-   
-   #jetpack-info #ji-toggler.opened a span {
-      background-position: 0 0;
-   }
-   
-   #jetpack-info #ji-toggler.closed a span {
-      background-position: 0 -11px;
-   }
-   
+	#package-info #ji-toggler {
+		background: -moz-linear-gradient(270deg, #3A86DA, #022052);
+		padding-right: 1px;
+		right: -1px;
+		cursor: pointer;
+		width: 230px;
+	}
+
+		#package-info #ji-toggler a {
+			display: block;
+			background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
+			border-top: solid 1px #9CC7F8;
+			border-bottom: solid 1px #022052;
+			color: #fff;
+			text-shadow: 0 1px 0 #011E4F;
+			padding: 16px 0 16px 10px;
+			position: relative;
+		}
+		
+		#package-info #ji-toggler a span {
+			display: block;
+			height: 12px;
+			width: 11px;
+			position: absolute;
+			top: 50%;
+			right: 8px;
+			margin-top: -5px;
+			background: url(../img/ico_info.png) 0 50% no-repeat;
+		}
 
 /*
  =========================================================================== */
- #app-footer {
-    background: #3F4652;
-    height: 30px;
-    
-    display: none;
- }
+.UI_Heading {
+	border-bottom: solid 1px #E9EDF0;
+	padding: 0 0 5px;
+	margin: 0 0 15px;
+	color: #666;
+	font-size: 1.4em;
+	font-family: Helvetica, Arial, Tahoma, sans-serif;
+}
+
+/*
+ =========================================================================== */
+.UI_SeeMore a {
+	font-size: .9em;
+	font-weight: bold;
+	color: #478CDE;
+	display: inline-block;
+	color: #478CDE;
+	padding-bottom: 1px;
+	border-bottom: solid 1px #E9EDF0;
+}
+
+.UI_SeeMore a:hover {
+	text-decoration: none;
+	color: #3E464D;
+	border-bottom: solid 1px #478CDE;
+}
+
+/*
+ =========================================================================== */
+.UI_tooltip {
+	padding: 8px;
+	background: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	font-size: .9em;
+	text-shadow: 0 1px 0 #000;
+	min-width: 120px;
+	-moz-border-radius: 3px;
+	width: 220px;
+}
+
+	.UI_tooltip .tip-title {
+		font-weight: bold;
+		margin-bottom: 5px;
+	}
+
+/*
+ =========================================================================== */
+.UI_Action_List {
+	font-size: .9em;
+}
+
+	.UI_Action_List li {
+		font-weight: bold;
+		margin: 0 0 10px;
+	}
+
+		.UI_Action_List li:hover strong,
+		.UI_Action_List li.selected strong {
+			color: #3E464D;
+		}
+
+		.UI_Action_List li a {
+			color: #478CDE;
+			padding-bottom: 1px;
+			border-bottom: solid 1px #E9EDF0;
+		}
+
+		.UI_Action_List li a:hover,
+		.UI_Action_List li.selected a {
+			text-decoration: none;
+			color: #3E464D;
+			border-bottom: solid 1px #478CDE;
+		}
+
+		.UI_Action_List li strong {
+			color: #CCC;
+			font-size: .9em;
+			margin-left: 5px;
+		}
+
+/*
+=========================================================================== */
+.UI_Actions {
+	margin: 14px 0 10px;
+}
+
+	.UI_Actions li {
+		background: #BEC5CC;
+		border-bottom: solid 1px #fff;
+		padding: 1px;
+		margin: 0 -1px 1px 0;
+		float: left;
+		position: relative;
+	}
+
+		.UI_Actions li a {
+			background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
+			-moz-box-shadow: 0 -1px 0 #fff;
+			display: block;
+			padding: 7px 10px;
+			margin: 1px 0 0;
+			font-size: .9em;
+			text-shadow: 0 1px 0 #fff;      
+		}
+
+	/* Starting element */
+	.UI_Actions li:first-child {
+		-moz-border-radius: 6px;
+		-moz-border-radius-topright: 0;
+		-moz-border-radius-bottomright: 0;      
+	}
+
+		.UI_Actions li:first-child a {
+			-moz-border-radius: 5px;
+			-moz-border-radius-topright: 0;
+			-moz-border-radius-bottomright: 0;
+		}
+
+	/* Ending element */
+	.UI_Actions li:last-child {
+		-moz-border-radius: 6px;
+		-moz-border-radius-topleft: 0;
+		-moz-border-radius-bottomleft: 0;      
+	}
+
+		.UI_Actions li:last-child a {
+			-moz-border-radius: 5px;
+			-moz-border-radius-topleft: 0;
+			-moz-border-radius-bottomleft: 0;
+		}
+		
+	/* There's only one element */
+	.UI_Actions li.single {
+		-moz-border-radius: 6px;
+	}
+
+		.UI_Actions li.single a {
+			-moz-border-radius: 5px;
+		}
+
+		.UI_Actions li a:hover,
+		.UI_Actions li.UI_Pick_Version a {
+			background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
+			text-decoration: none;
+		}
+
+		.UI_Actions li a:active,
+		.UI_Actions li.UI_Pick_Version a:active,
+		.UI_Actions li.pressed a {
+			background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
+			-moz-box-shadow: none;
+			border-top: none;
+			color: #6D7880;
+		}
+
+
+	.UI_Actions li.UI_Pick_Version {
+		position: relative;
+	}
+
+		.UI_Actions li.UI_Pick_Version.active {
+			-moz-border-radius-bottomright: 0;
+		}
+
+			.UI_Actions li.UI_Pick_Version.active a {
+				-moz-border-radius-bottomright: 0;
+			}
+
+		.UI_Actions li.UI_Pick_Version a span {
+			height: 10px;
+			width: 11px;
+			display: inline-block;
+			margin-left: 5px;
+			background: url(../img/toggle-arrows.png) 0 -23px no-repeat;
+		}
+
+		.UI_Actions li.UI_Pick_Version .UI_Versions {
+			position: absolute;
+			top: 31px;
+			right: 0;
+			background: #fff;
+			width: 110px;
+			border: solid 1px #BEC5CC;
+			z-index: 50;
+			padding: 5px 0;
+			opacity: 0;
+			-moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+			-moz-border-radius-bottomleft: 6px;
+			-moz-border-radius-bottomright: 6px;
+		}
+
+		.UI_Actions li.UI_Pick_Version .UI_Versions.loading {
+			background: #fff url(../img/spinner.gif) 50% 50% no-repeat;
+			height: 30px;
+		}
+
+			.UI_Actions li.UI_Pick_Version .UI_Versions li {
+				background: transparent;
+				-moz-border-radius: 0;
+				padding: 0;
+				margin: 0;
+				float: none;
+				border: none;
+			}
+
+				.UI_Actions li.UI_Pick_Version .UI_Versions li a {
+					background: transparent;
+					-moz-border-radius: 0;
+					margin: 0;
+					display: block;
+					float: none;
+					padding: 2px 5px;
+					border: none;
+					font-size: .8em;
+				}
+
+				.UI_Actions li.UI_Pick_Version .UI_Versions li a:hover {
+					background: -moz-linear-gradient(270deg, #5AA2F3, #3E81D2);
+					color: #fff;
+					text-shadow: 0 1px 0 #011E4F;
+				}
+
+
+/*
+ =========================================================================== */
+#app-footer {
+	overflow: hidden;
+}
+
+
+/* From AMO */
+/* @group Footer */
+
+#footer {
+    background-image: url(../img/mozilla/footer.png);
+    background-repeat: repeat-x;
+    background-position: 0 50px;
+    clear: both;
+    padding-bottom: 1em;
+}
+#footer a {
+    color: #478CDE;
+}
+
+#footer .section {
+    min-height: 0;
+	overflow: hidden;
+	background-image: url(../img/mozilla/logo-mozilla.gif);
+    background-repeat: no-repeat;
+    background-position: 15px 70px;
+    padding: 0 15px;
+	
+}
+#footer .primary {
+    float: left;
+    padding-top: 70px;
+    clear: none;
+	width: 75%;
+}
+#footer .primary ul {
+    margin-top: 7px;
+}
+#footer .primary strong {
+    font-weight: bold;
+}
+#footer .secondary {
+    float: right;
+    text-align: right;
+    clear: none;
+}
+#footer .secondary img {
+    max-width: 190px;
+    width: 100%;
+}
+#footer p {
+    margin-bottom: 0;
+    margin-left: 60px;
+    margin-right: 1em;
+}
+#footer ul {
+    font-size: 0.846em;
+    line-height: 1.273;
+    margin-top: 0.3em;
+    padding: 0;
+    margin-left: 60px;
+    margin-right: 1.273em;
+}
+#footer ul li {
+    display: inline;
+    margin-right: 1em;
+}
+#footer .disclaimer {
+    font-size: 0.846em;
+    line-height: 1.273;
+    color: #666666;
+    margin-right: 1.273em;
+	padding-top: 15px;
+	margin-bottom: 10px;
+	clear: both;
+}
+
+#footer .languages {
+    float: right;
+    margin: 0;
+	font-weight: bold;
+}
+
+	#footer .languages button {
+	    display: none;
+	}
+
+/* @end */

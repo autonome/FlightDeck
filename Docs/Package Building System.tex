@@ -1,0 +1,253 @@
+% Mozilla Addon Builder
+% Package Building System Documentation
+% 
+% This document is written in LaTeX
+% For quick doc please follow to http://web.mit.edu/olh/Latex/ess:Latex.html
+
+% If you want to edit the text please scroll down to the CONTENT
+
+\documentclass[10pt]{article}
+\usepackage{mozillaaddonbuilderstyle}
+\def\version{alpha 0.7}
+
+% mozillaaddonbuilderstyle package loads following packages:
+% fullpage, url, tikz, tikz-er2, listings, graphicx, color
+% 
+% Graphz are using the TikZ package: http://texamples.net/tikz
+% 
+% TikZ-ER2 (Creative Commons Attribution 2.5 Generic License) 
+% needs to be installed https://www.assembla.com/wiki/show/tikz-er2 
+
+               
+% CONTENT -----------------------------------------------------------------------------                         
+                         
+\title{Mozilla Addon Builder\\ Package Building System}
+\author{Piotr Zalewa}
+\date{\today, \version}
+
+\begin{document}
+\maketitle
+
+{\scriptsize
+	\noindent Download this document from \\
+\url{http://github.com/zalun/FlightDeck/raw/master/Docs/Package%20Building%20System.pdf}\\
+}{\scriptsize
+	\noindent Some relevant graph slides are available \\
+	\url{http://github.com/zalun/FlightDeck/raw/master/Docs/Addon%20Builder%20-%20Build%20System.pdf}
+}
+
+\section{Assumptions for the current iteration}
+
+	\begin{enumerate}
+		\item{Name of the Package is not unique anymore.\\
+			Packages are identified by it's {\em unique ID}. There may and probably often will be many
+			Packages with the same name. Add-ons do have ID generated based on the author's key, 
+			Libraries may work on the "internal" ID number.\\
+			{\tt /library/123456/}}, {\tt /addon/4wedo230ei@jetpack/ }
+		\item{Version is a tag.\\
+			Version is important. It is used to tag major {\em Revisions}. If a package is called without any
+			Version specified (as above), the latest versioned Revision will be used. Version is build from 
+			restricted set of characters --- alphanumeric extended by ".-\_"\\
+			{\tt /library/123456/version/0.1/}}
+		\item{Revision Number is used to precisely identify a Revision.\\
+			It is completely parallel to the Package Version. That means that a Package Revision Number is 
+			unique per Package.\\
+			{\tt /library/123456/revision/654/}}
+		\item{No collaborative editing.\\
+			Althought there will be no connection between Packages owned by different Users, design the 
+			system to not complicate future implementation of such functionality.}
+		\item{Package remembers which SDK version was used to build it.\\
+			This is very complicated also on the front-end side. It will be created during the next
+			iteration. However, for the future implementations we will save the Jetpack SDK version number 
+			which was installed at the moment the Package was created.}
+	\end{enumerate}
+
+\section{Data structure}
+
+	\begin{figure}[H]
+	\scalebox{1}{\begin{tikzpicture}[node distance=1cm, every edge/.style={link}]
+		\node [entity] (User) {User};
+		\node [entity] [right=of User] (Package) {Package} edge [->] (User)
+			node [attribute] [above=of Package] {ID} edge (Package)
+			node [attribute] [above left=of Package] {Version} edge (Package);
+		\node [entity] [right=1.5cm of Package] (PackageRevision) {PackageRevision} edge [->] (Package)
+			node [attribute] [below=of PackageRevision] {Version} edge [dashed] (PackageRevision)
+			node [attribute] (meta) [below left=6mm of PackageRevision] {Meta} edge (PackageRevision)
+				node [attribute] [below=of meta] {Name} edge (meta)
+				node [attribute] [below left=of meta] {Description} edge (meta);
+		\node [relationship] [above=1.5cm of PackageRevision] (depends) {depends on};
+		\draw
+			(PackageRevision.60) edge [<-] (depends.320) 
+			(PackageRevision.130) edge node [rectangle,fill=white,rotate=277] {Library} (depends.220);
+		\node [entity] [right=of PackageRevision] (Module) {Module} edge [total] (PackageRevision)
+			node [attribute] [right=of Module] {Code} edge (Module)
+			node [attribute] [above right=of Module] {Filename} edge (Module);
+		\node [entity] [below=of Module] (Attachment) {Attachment} 	edge [total] (PackageRevision)
+			node [attribute] [right=of Attachment] {Filename} edge (Attachment)
+			node [attribute] [below right=of Attachment] {Upload Path} edge (Attachment);		
+	\end{tikzpicture}}
+	\caption{	Database design.} 
+	\end{figure}
+	\begin{itemize}
+		\item{Unique filenames for Modules or Attachments are not given by design. Additional code needs to 
+			be written to prevent duplicating filenames.}
+		\item{{\tt Package:version} is set automatically with setting the {\tt PackageRevision:version}}
+	\end{itemize}
+	
+
+\section{Export \xpi}
+
+	Only Addons may be used to create an \xpi\footnote{An \xpi\ installer module is a ZIP file 
+	that contains a Package --- Manifest with all code needed to run the Addon}. Be aware that it is 
+	possible and common to export \xpi\ from partially unsaved data. 
+	This happens when User will use the {\em Try in browser} functionality. In this case \xpi\ can not be send to 
+	\amo\footnote{\url{http://addons.mozilla.org/}}.
+	
+	\subsection{Create directory structure}
+		
+		Directory structure should be as close as standard Jetpack SDK as possible. Jetpack SDK should 
+		be copied to a temporary directory as more than one Addon compilation could take action at the 
+		same time. Desired revisions of Libraries and Addons will be exported into {\tt packages} directory.
+		
+		\begin{lstlisting}[caption=Parts of the tree of a copied Jetpack SDK directory.]
+ /tmp/jetpack-sdk-{hash}/
+ |-- bin/
+ |   |-- activate
+ |   |-- cfx
+ |   `-- [...]
+ |-- packages/
+ |   |-- jetpack-core/
+ |   `-- [...]
+ |-- python-lib/
+ |-- static-files/
+ `-- [...]
+		\end{lstlisting}
+	
+		
+	
+	\subsection{Export Packages with Modules}
+		
+		\begin{enumerate}
+			\item{Create Package and its Modules directories\\
+				{\tt /tmp/jetpack-sdk-\{hash\}/packages/\{Package:ID\}/}\\
+				{\tt /tmp/jetpack-sdk-\{hash\}/packages/\{Package:ID\}/lib/}
+			}
+			\item{Use collected data to create the Manifest.\\
+				{\tt /tmp/jetpack-sdk-\{hash\}/packages/\{Package:name\}/package.json}
+			}
+			\item{Create Module files\\
+				Iterate over the assigned Modules and create a "{\tt .js}" file with its content inside 
+				Package's {\tt lib/} directory.
+			}
+			\item{Export dependencies\\
+				Iterate over Libraries on which a Package depends and repeat this section ({\em Export 
+				the Package with Modules}) for every Library.
+			}
+		\end{enumerate}
+	
+	\subsection{Build \xpi}
+		\begin{enumerate}
+			\item{Set virtual environment to the temporary Jetpack SDK}
+			\item{Change directory to {\tt /tmp/jetpack-sdk-\{hash\}/packages/\{Package:name\}/}}
+			\item{Call {\tt cfx xpi}.\\
+				The {\tt \{Package:name\}.xpi} file will be created in current directory.} 
+			\item{Send location to the front-end to be used in further actions\\
+				In example calling Test in Browser.}
+		\end{enumerate}
+		
+	\subsection{Test in browser}
+		
+		To test the Addon in the Browser it is not necessary to save current code in the PackageRevision.
+		An \xpi\ will be build from current data displayed inside the Addon Builder\footnote{As UI will 
+		probably be designed in the way that the Libraries will be open in different Browser Tab than the 
+		Addon, only the latter	data will be taken directly from editor}. Addon will be installed temporarily
+		--- it will be automatically removed after certain conditions will happen\footnote{It is not yet 
+		decided what these conditions are. Should it happen after User will {\em "leave the editing 
+		environment"} or restart the browser}. 
+		The process takes following steps:
+		\begin{enumerate}
+			\item{Build an \xpi\ from code in editor}
+			\item{Send a {\em load Addon request} to the {\em FlightDeck Addon}\footnote{FlightDeck Addon is a 
+				Jetpack extension 	allowing to temporary installation of the \xpi. It needs to be called 
+				with an URL of the \xpi. It is currently in {\em alpha} stage, there is a proposition 
+				to replace it with a more generic Addon}}
+			\item{\xpi\ is downloaded and installed by the Addon}
+			\item{Addon sends a remove request after the \xpi\ is downloaded}
+			\item{Whole Jetpack SDK used to create \xpi\ is removed}
+		\end{enumerate}
+	
+	\subsection{Upload to AMO}
+	
+		{\em Sending the \xpi's to \amo\ is postponed and will be coded after current iteration.}
+	
+		\noindent \xpi\ needs to be created from a database object. Then {\tt mechanize} lib will
+		be used to login to \amo\ and upload the file faking it was done directly from the browser.
+							
+\section{Integration with the Browser}
+
+	\note{FlightDeck Addon is provided and developed by Mozilla}
+	Integration with the Browser is provided by FlightDeck Addon.
+
+	\subsection{Current status}
+	
+		Currently there is a {\em proof of concept} version of that Addon. It provides the support for instant 
+		addons. These are installed temporarily until the browser will be restarted.
+		
+	\subsection{Try in browser}
+	
+		Provide a temporary instalaltion of the Addon.
+		
+		\subsection*{Install Addon}
+		
+			Addon will download and install an \xpi\ created by the Package Builder. Afterwards it will send
+			back a command to remove the SDK. Installation should use the built-in support for instant addons.
+		
+		\subsection*{Remove Addon}
+		
+			This should happen on request or automatically after a specific action will happen. It is still
+			not decided if leaving the editing environment should be considered as a {\em remove addon} 
+			action.
+			
+			\begin{description}
+				\item[On request] means that the User has the information about temporarily installed Addon/s 
+					and is able to send request to uninstall it/them.
+				\item[On browser quit] --- all of the Addons Iser is currently testing are gonna be removed 
+					after Browser will quit or restarted. This should happen after User will quit the Browser,
+					terminate it or restart after crash.
+				\item[On leaving the editing environment] --- this happens whith the onunload event fired 
+					on the Addon tab (navigating away or closing the tab)
+				\item[On uninstall/reinstall the FlightDeck Addon] all of the temporarily installed 
+					packages should be unloaded. At the moment it requires the browser to be reloaded, but
+					it will eventually change if FlightDeck Addon will become a Jetpack addon itself.
+			\end{description}
+	
+\section{Maintaining and building Manifest}
+
+	Manifest is the Addon's metadata. It is exported to {\tt package.json} in the main Addon directory. It is 
+	described on \url{https://jetpack.mozillalabs.com/sdk/0.1/docs/\#guide/package-spec}.
+	
+	\subsection{Manifest's attributes representation in the system}
+	
+	\begin{description}
+		\item[fullName] from {\tt Package:full\_name}
+		\item[name] from {\tt Package:name}
+		\item[description] from {\tt Package:description} and {\tt PackageRevision:description}
+		\item[author] from {\tt Package:author}
+		\item[id] from {\tt Package:ID}
+		\item[version] depends on the way the \xpi\ was build. It will always contain according 
+			{\tt PackageRevision:version\_name} plus {\tt PackageRevision:revision\_number} 
+			(if build PackageRevision was not the one containing the version\_name) or  
+			{\tt test in browser} (if \xpi\ is build for testing only).
+		\item[dependencies] is a list created on the basis of {\tt PackageRevision:dependencies}
+		\item[license] from {\tt Package:license}
+		\item[url] from {\tt Package:url}
+		\item[contributors] {PackageRevision:contributors} --- needs to be a comma separated list as 
+			current version will not support collaborative editing 
+	\end{description}
+	
+	
+	
+\pagebreak
+\section*{To be continued\ldots}
+\end{document}
+

@@ -1,24 +1,52 @@
 {% extends "base.html" %}
-{% load jetpack_extras %}
 
-{% block app_body %}
-	<h1>Profile of {{ person }}</h1>
-	{% if person.authored_jetpacks.all %}
-		Created Jetpacks:
-		<ul>
-		{% for jet in person.authored_jetpacks.all %}
-			<li>{{ jet|render_base_link }}</li>
-		{% endfor %}
+{% block head %}
+	<link rel="stylesheet" href="/media/jetpack/css/UI.Browser.css" type="text/css" media="screen" />
+{% endblock %}
+
+{% block app_sidebar %}
+	<h2 class="UI_Heading">{{ profile.get_name }}</h2>
+	
+	<div class="UI_ProfileInfo">
+		{% include "_profile_info.html" %}
+	</div>
+
+	<ul class="UI_Action_List">
+		{% if addons %}
+			<li>
+				<a title="Add-ons" href="{% url jp_browser_user_addons person.username %}">Add-ons</a> 
+				<strong>({{ addons|length }})</strong>
+			</li>
+		{% endif %}
+		{% if libraries %}
+			<li>
+				<a title="Libraries" href="{% url jp_browser_user_libraries person.username %}">Libraries</a> 
+				<strong>({{ libraries|length }})</strong>
+			</li>
+		{% endif %}
+	</ul>
+{% endblock %}
+
+{% block app_content %}
+	{% if addons %}
+		<h2 class="UI_Heading">Add-ons</h2>
+		<ul class="UI_Browser">
+			{% for item in addons %}
+				<li class="UI_Item">
+					{% include "_package_browser_addon.html" %}
+				</li>
+			{% endfor %}
 		</ul>
 	{% endif %}
 	
-	{% if person.authored_capabilities.all %}
-		Created Modules:
-		<ul>
-		{% for cap in person.authored_capabilities.all %}
-			<li>{{ cap|render_base_link }}</li>
-		{% endfor %}
+	{% if libraries %}
+		<h2 class="UI_Heading">Libraries</h2>
+		<ul class="UI_Browser">
+			{% for item in libraries %}
+				<li class="UI_Item">
+					{% include "_package_browser_library.html" %}
+				</li>
+			{% endfor %}
 		</ul>
 	{% endif %}
 {% endblock %}
-

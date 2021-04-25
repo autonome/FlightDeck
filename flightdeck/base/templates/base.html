@@ -1,46 +1,142 @@
 <!DOCTYPE html>
-{# Base HTML every page will use #}
+{# Base HTML, every page will use #}
+{% load base_helpers %}
 <html lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="author" content="Mozilla Corporation" />
-
-	<link rel="stylesheet" href="/media/jetpack/css/UI.Base.css" type="text/css" media="screen" />
-	<script src="/media/js/lib/mootools-1.2.4-core-nc.js"></script>
-	<script src="/media/js/lib/mootools-1.2.4.4-more.js"></script>
-	<script src="/media/roar/Roar.js"></script>
-	<script src="/media/jetpack/js/Sidebar.js"></script>
-	{% block head %}
-	{% endblock %}
-	{% block roar_css %}<link href="/media/roar/Roar.css" rel="stylesheet" type="text/css">{% endblock %}
-	<script src="/media/js/FlightDeck.js"></script>
-	<script src="/media/js/FlightDeck.Roar.js"></script>
-	<script src="/media/js/FlightDeck.Modal.js"></script>
-	<script type='text/javascript'>
-		var fd;
-		window.addEvent('domready', function() {
-			fd = new FlightDeck();
-			{% block app_domready %}{% endblock %}
-			{% block page_domready %}{% endblock %}
-		});
-	</script>
-</head>
-<body id="{{ body_id }}">
-	<div id="wrapper">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="author" content="Mozilla Corporation" />
+		<link rel="stylesheet" href="/media/jetpack/css/UI.Base.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="/media/jetpack/css/UI.Editor_Menu.css" type="text/css" media="screen">
+		<script src="/media/js/lib/mootools-1.2.4-core-nc.js"></script>
+		<script src="/media/js/lib/mootools-1.2.4.4-more.js"></script>
+		<script src="/media/js/lib/clientcide.2.2.0.js"></script>
+		<script src="/media/roar/Roar.js"></script>
+		<script src="/media/jetpack/js/Sidebar.js"></script>
+		<script src="/media/js/FlightDeck.js"></script>
+		<script src="/media/js/FlightDeck.Roar.js"></script>
+		<script src="/media/js/Clientcide.ModalWindow.js"></script>
+		<script src="/media/js/FlightDeck.Modal.js"></script>
+		<script src="/media/js/FlightDeck.Utils.js"></script>
+		<script src="/media/js/FlightDeck.Dropdown.js"></script>
+		<script src="/media/js/FlightDeck.PickVersion.js"></script>
+		<script src="/media/jetpack/js/Create.js"></script>
+		<title>{% block title %}{% endblock %}{{ settings.SITE_TITLE }}</title>
+		{% block head %}{% endblock %}
+		{% block roar_css %}
+			<link href="/media/roar/Roar.css" rel="stylesheet" type="text/css" />
+			<link rel="stylesheet" href="/media/jetpack/css/FlightDeck.Roar.css" type="text/css" media="screen" />
+		{% endblock %}
 		
-		<header id="app-header">
-			{% include "_header.html" %}
-		</header> <!-- /main-header -->
+		<script type='text/javascript'>
+			var fd;
+			var settings = {
+				{% block app_settings %}{% endblock %}{% block page_settings %}{% endblock %}
+				addons_helper: '{{ settings.ADDONS_HELPER_URL }}',
+				person_login_url: '{{ settings.LOGIN_URL }}',
+				jp_addon_create_url: '{% url jp_addon_create %}',
+				jp_library_create_url: '{% url jp_library_create %}',
+				create_modal_template: '{% escape_template "_create.html" %}',
+				user: '{{ user.username }}', 
+				DEBUG: {{ settings.DEBUG|yesno:"true,false" }}
+			};
+			window.addEvent('domready', function() {
+				fd = new FlightDeck({'user': '{{ user.username }}'});
+				{% block create_init %}{% comment %}
+					create.init(
+						['create_addon', 'create_library'],
+						['addon','library'],
+						'app-body'
+					);
+				{% endcomment %}{% endblock %}
+				{% block app_domready %}{% endblock %}
+				{% block page_domready %}{% endblock %}
+			});
+		</script>
+		<style>.hidden { display: none; }</style>
+	</head>
+	<body id="{{ page }}">
+		{# mesages system http://docs.djangoproject.com/en/dev/ref/contrib/messages/#adding-a-message #}
+		{% if messages %}
+		    {% for message in messages %}
+			    <p{% if message.tags %} class="fd_{{ message.tags }}"{% endif %}>{{ message }}</p>
+			{% endfor %}
+		{% endif %}
+		<div id="wrapper">
+		
+			<header id="app-header">
+				{% block header %}{% include "_header.html" %}{% endblock %}
+			</header> <!-- /app-header -->
 
-		<div id="app-body">
-			{% block app_body %}
+			{% block app_menu %}{% comment %}
+				<div id="editor-menu-wrapper">
+					<ul class="UI_Editor_Menu minimal">
+						{% include "_base_app_menu_items.html" %}
+					</ul>
+				</div><!-- /editor-menu-wrapper -->
+			{% endcomment %}{% endblock %}
+
+			<div id="app-body">
+				{% block app_body %}
+				{% endblock %}
+				
+				{% block base_fluid_width %}
+					<div class="UI_middleWrapper page">
+						<aside id="app-sidebar" class="UI_Sidebar">
+							{% block app_sidebar %}{%endblock %}
+						</aside> <!-- /app-sidebar -->
+						<section id="app-content">
+							{% block app_content %}{% endblock %}
+						</section> <!-- /app-content -->
+					</div> <!-- /UI_middleWrapper -->
+				{% endblock %}
+				
+			</div> <!-- /app-body -->
+			{% block footer %}
+				<footer id="app-footer">
+					<div id="footer" role="contentinfo">
+						<div class="UI_middleWrapper">
+							<div class="section">
+								<div class="primary">
+									<p>
+										Except where otherwise <a href="http://www.mozilla.com/en-US/about/legal.html#site">noted</a>, 
+										content on this site is licensed under the
+										<strong><a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution Share-Alike License v3.0</a></strong> 
+										or any later version<span title="#">.</span>
+									</p>
+									<ul>
+										<li><a href="http://www.mozilla.com/en-US/privacy-policy.html">Privacy Policy</a></li>
+										<li><a href="http://www.mozilla.com/en-US/about/legal.html">Legal Notices</a></li>
+										<li><a href="http://mozillalabs.com/jetpack">Blog</a></li>
+										<li><a href="https://addons.mozilla.org/en-US/developers">Developer Hub</a></li>
+										<li><a href="http://groups.google.com/group/mozilla-labs-jetpack/topics">Forum</a></li>
+									</ul>
+									<p class="disclaimer">Mozilla is providing links to these applications as a courtesy, and makes no representations regarding the applications or any information related thereto. Any questions, complaints or claims regarding the applications must be directed to the appropriate software vendor.
+									</p>
+								</div> <!-- /primary -->
+								<div class="secondary">
+									<img src="/media/jetpack/img/mozilla/fox-logo-footer.png" alt="" />
+								</div> <!-- /secondary -->
+							</div> <!-- /section -->
+						</div> <!-- /UI_middleWrapper -->
+					</div> <!-- /footer -->
+				</footer> <!-- /page-info -->
 			{% endblock %}
-		</div> <!-- /app-body -->
-		<footer id="app-footer"></footer> <!-- /page-info -->
+			
 		
-	</div> <!-- /wrapper -->
+		</div> <!-- /wrapper -->
 		
-</body><!-- /{{ body_id }} -->
-
+		{% if not settings.DEBUG %}
+			<script type="text/javascript">
+				var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+				document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+			</script>
+			<script type="text/javascript">
+				try {
+					var pageTracker = _gat._getTracker("UA-366077-15");
+					pageTracker._trackPageview();
+				} 
+				catch(err) {}
+			</script>
+		{% endif %}
+	</body><!-- /{{ body_id }} -->
 </html>
-

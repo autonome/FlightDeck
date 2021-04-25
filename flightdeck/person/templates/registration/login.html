@@ -1,26 +1,74 @@
 {% extends "base.html" %}
+{# default django template for login page #}
 
-{% block app_body %}
-
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
-<form method="post" action="{% url django.contrib.auth.views.login %}">
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
-
-<input type="submit" value="login" />
-<input type="hidden" name="next" value="{{ next }}" />
-</form>
-
+{% block head %}
+	<link rel="stylesheet" href="/media/jetpack/css/UI.Login.css" type="text/css" media="screen" />
 {% endblock %}
 
+
+{% block app_menu %}{% endblock %}
+{% block create_init %}{% endblock %}
+
+
+{% block app_content %}
+	{% if form.errors %}
+		{% for sender,subject in form.errors.items %}
+			{% for error in subject %}
+				<p class="fd_error" title="Sign In Error">{{ error|escape }}</p>
+			{% endfor %}
+		{% endfor %}
+		{% comment %}
+		<p class="fd_error" title="Sign In error">
+			Your email and addons.mozilla.org password didn't match. 
+			Please try again.
+		</p>
+		{% endcomment %}
+	{% endif %}
+
+	<div class="UI_Login">
+		
+		<form class="UI_Forms" id="login_form" method="post" action="{% url django.contrib.auth.views.login %}" accept-charset="utf-8">
+			{% csrf_token %}
+			<fieldset>
+				<legend>Login</legend>
+				
+				<div class="UI_Forms_info">
+					{% if settings.AMO_LIMITED_ACCESS %}
+						<p>
+							Add-ons Builder is currently limiting its userbase.<br />
+							<strong>You will not be able to sign in if you're not on the list</strong>.
+						</p>
+					{% endif %}
+					
+					<p>Sign in to Add-Ons Builder with your 
+						<a title="Go to addons.mozilla.org" href="https://addons.mozilla.org">
+							addons.mozilla.org
+						</a> account.
+					</p>
+					<p>Don't have an account? 
+						<a title="Create a new account" href="https://addons.mozilla.org/users/register">Get one</a>.
+					</p>
+				</div>
+				
+				<p class="UI_Field">
+					{{ form.username.label_tag }}
+					{{ form.username }}
+				</p> <!-- /UI_Field -->
+
+				<p class="UI_Field">
+					{{ form.password.label_tag }}
+					{{ form.password }}
+				</p> <!-- /UI_Field -->
+			</fieldset>
+
+			<div class="UI_Form_Actions">
+				<input type="hidden" name="next" value="{{ next }}" />
+
+				<ul>
+					<li><input type="submit" name="save" value="Sign in" /></li>
+				</ul>
+			</div> <!-- /UI_Form_Actions -->
+		</form> <!-- /UI_Forms -->
+	
+	</div> <!-- /UI_Login -->
+{% endblock %}
